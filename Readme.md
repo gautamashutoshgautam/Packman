@@ -82,7 +82,7 @@ This is a classic Pacman game implemented in Java using the `javax.swing` librar
 
 
 3. Game Over
-<img width="597" alt="Screenshot 2025-02-21 at 8 06 06 PM" src="https://github.com/user-attachments/assets/7553b49b-5767-4fa0-8b53-a389ab060e09" />
+<img width="604" alt="Screenshot 2025-02-21 at 8 27 20 PM" src="https://github.com/user-attachments/assets/5ccdcf33-2cc7-44f9-9855-176da00a8a6e" />
 
 
 
