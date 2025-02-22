@@ -15,6 +15,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         int startX;
         int startY;
         char direction = 'U'; // U D L R
+
         int velocityX = 0;
         int velocityY = 0;
 
@@ -98,7 +99,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             "XXXX XXXX XXXX XXXX",
             "OOOX X       X XOOO",
             "XXXX X XXrXX X XXXX",
-            "X       bpo       X",
+            "0       bpo       0",
             "XXXX X XXXXX X XXXX",
             "OOOX X       X XOOO",
             "XXXX X XXXXX X XXXX",
@@ -231,7 +232,14 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         pacman.x += pacman.velocityX;
         pacman.y += pacman.velocityY;
 
-        //check wall collisions
+        // Teleport Pac-Man when passing through the '0' tunnel
+        if (pacman.x < 0) {
+            pacman.x = boardWidth - tileSize; // Move to the right side
+        } else if (pacman.x >= boardWidth) {
+            pacman.x = 0; // Move to the left side
+        }
+
+        // Check wall collisions
         for (Block wall : walls) {
             if (collision(pacman, wall)) {
                 pacman.x -= pacman.velocityX;
@@ -240,7 +248,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-        //check ghost collisions
+        // Check ghost collisions
         for (Block ghost : ghosts) {
             if (collision(ghost, pacman)) {
                 lives -= 1;
@@ -251,11 +259,12 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
                 resetPositions();
             }
 
-            if (ghost.y == tileSize*9 && ghost.direction != 'U' && ghost.direction != 'D') {
+            if (ghost.y == tileSize * 9 && ghost.direction != 'U' && ghost.direction != 'D') {
                 ghost.updateDirection('U');
             }
             ghost.x += ghost.velocityX;
             ghost.y += ghost.velocityY;
+
             for (Block wall : walls) {
                 if (collision(ghost, wall) || ghost.x <= 0 || ghost.x + ghost.width >= boardWidth) {
                     ghost.x -= ghost.velocityX;
@@ -266,7 +275,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-        //check food collision
+        // Check food collision
         Block foodEaten = null;
         for (Block food : foods) {
             if (collision(pacman, food)) {
@@ -281,6 +290,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             resetPositions();
         }
     }
+
 
     public boolean collision(Block a, Block b) {
         return  a.x < b.x + b.width &&
